@@ -1,0 +1,7 @@
+<?php $config = array(
+	'db_host'	=> 'localhost',
+	'db_user'	=> 'someuser',
+	'db_pass'	=> 'secret!',
+	'db_name'	=> 'somedatabase',
+);
+

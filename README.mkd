@@ -1,0 +1,42 @@
+Instagraph
+==========
+
+What is it?
+-----------
+
+It's a very small web application that generates graphs as PNG images. You
+might consider it a bare-bones graph pastebin application.
+
+You enter a graph or digraph definition. You click the button. You get a link
+to the generated PNG file.
+
+You can generate PNG files with short names (incrementing series, so that
+makes the URLs easy to guess) or long names (40 characters hex string; need to
+know graph definition to guess).
+
+Requirements
+------------
+
+* GraphViz installed in /usr/bin. You can edit gen.php if you have a different
+  path.
+* PHP 5 or newer.
+* MySQL 3 or newer (tested with 5.x).
+* The `.htaccess` file included with it needs Apache with mod_rewrite enabled
+  (and `.htaccess` files allowed, obviously). You can probably create an
+  alternative solution for most other web servers. Basically, any request to
+  `123abcABC_-.png` needs to be rewritten into `get.php?id=13abcABC_-`.
+
+Specialties
+-----------
+
+If you configure your webserver to require HTTP authentication on gen.php,
+graphs can only be created by known users. Instagraph will log the name of the
+user for each created graph in the database, though the value won't be
+displayed anywhere. (Instagraph also logs the time at which each graph was
+generated; this value isn't displayed, either...)
+
+Feedback
+--------
+
+Anything interesting to say? Tell me at jk@jk.gs.
+
