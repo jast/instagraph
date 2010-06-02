@@ -48,8 +48,7 @@ EOR;
 }
 
 if ($graph_id = get_one("SELECT graph_id FROM graphs WHERE graph_code = '$hash'")) {
-	$_GET['id'] = $graph_id;
-	goto($graph_id);
+	goto(intval($graph_id));
 }
 
 # build graph
