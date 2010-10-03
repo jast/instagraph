@@ -27,7 +27,7 @@ function id_shorten($id)
 	static $map = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-';
 	$res = '';
 	while ($id > 0) {
-		$res .= $map[$id & 63];
+		$res = $map[$id & 63] . $res;
 		$id >>= 6;
 	}
 	return $res;
