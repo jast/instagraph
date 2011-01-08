@@ -63,7 +63,7 @@ fclose($pipes[0]);
 $png = stream_get_contents($pipes[1]);
 fclose($pipes[1]);
 
-$ret = proc_close($p);
+$res = proc_close($p);
 if ($res != 0) die("Couldn't create graph, sorry!");
 
 $png = mysql_real_escape_string($png);
