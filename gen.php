@@ -55,7 +55,7 @@ if ($graph_id = get_one("SELECT graph_id FROM graphs WHERE graph_code = '$hash'"
 $def = "$type G {\n$def\n}\n";
 $engine = ($type == 'graph') ? 'neato' : 'dot';
 
-$p = proc_open("/usr/bin/$engine -Tpng", array(0 => array('pipe', 'r'), 1 => array('pipe', 'w')), $pipes);
+$p = proc_open("/usr/bin/$engine -Tpng", array(0 => array('pipe', 'r'), 1 => array('pipe', 'w'), 2 => array('pipe', 'w')), $pipes);
 if (!is_resource($p)) die("Couldn't start graphing engine, sorry!");
 fwrite($pipes[0], $def);
 fclose($pipes[0]);
@@ -63,8 +63,18 @@ fclose($pipes[0]);
 $png = stream_get_contents($pipes[1]);
 fclose($pipes[1]);
 
+$err = stream_get_contents($pipes[2]);
+fclose($pipes[2]);
+
 $res = proc_close($p);
-if ($res != 0) die("Couldn't create graph, sorry!");
+if ($res != 0): ?>
+<p>Couldn't create graph, sorry! Error message follows:
+<pre><?php echo htmlspecialchars($err); ?></pre>
+<p>The graph definition was:
+<pre><?php echo htmlspecialchars($def); ?></pre>
+<?php
+	exit;
+endif;
 
 $png = mysql_real_escape_string($png);
 $def = mysql_real_escape_string($def);
