@@ -32,7 +32,7 @@ function id_shorten($id)
 	}
 	return $res;
 }
-function goto($id)
+function goto_output($id)
 {
 	if (is_int($id))
 		$id = id_shorten($id);
@@ -48,7 +48,7 @@ EOR;
 }
 
 if ($graph_id = get_one("SELECT graph_id FROM graphs WHERE graph_code = '$hash'")) {
-	goto(intval($graph_id));
+	goto_output(intval($graph_id));
 }
 
 # build graph
@@ -72,5 +72,5 @@ $author = mysql_real_escape_string($_SERVER['REMOTE_USER']);
 
 $r = mysql_query("INSERT INTO graphs (graph_code, graph_def, private, graph_img, author) VALUES('$hash', '$def', $private, '$png', '$author')");
 if ($r != 1) die("Failed saving graph in database, sorry!");
-goto($private ? $hash : mysql_insert_id());
+goto_output($private ? $hash : mysql_insert_id());
 
