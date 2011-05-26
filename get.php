@@ -16,7 +16,7 @@ function id_lengthen($id)
 	return $res;
 }
 
-$id = $_GET['id'];
+$id = isset($_GET['id']) ? $_GET['id'] : NULL;
 if (!$id) die("No ID given.");
 if (strlen($id) == 40)
 	$q = "graph_code = '".mysql_real_escape_string($id)."'";

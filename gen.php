@@ -1,8 +1,8 @@
 <?php
 
-$type = $_POST['type'];
-$def = $_POST['def'];
-$private = $_POST['private'] ? 1 : 0;
+$type = isset($_POST['type']) ? $_POST['type'] : NULL;
+$def = isset($_POST['def']) ? $_POST['def'] : NULL;
+$private = isset($_POST['private']) ? ($_POST['private'] ? 1 : 0) : 0;
 
 if ($type != 'graph' && $type != 'digraph')
 	die("Nuh-uh. Use one of the checkboxes.");
@@ -20,6 +20,7 @@ function get_one($q)
 {
 	$res = mysql_query($q);
 	if (!$res) die("Failed to get stuff from database. Sorry!");
+	if (mysql_num_rows($res) == 0) return NULL;
 	return mysql_result($res, 0);
 }
 function id_shorten($id)

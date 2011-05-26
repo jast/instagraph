@@ -17,7 +17,7 @@ value="digraph" id="type_d" checked="checked">
 <p>Definition (without the surrounding <code>[di]graph {}</code> thing): (<a
 href="http://en.wikipedia.org/wiki/DOT_language">syntax</a>, <a
 href="index.php?example=1">example</a>)<br>
-<textarea name="def" rows="20" cols="50"><?php if ($_GET['example']):
+<textarea name="def" rows="20" cols="50"><?php if (isset($_GET['example']) && $_GET['example']):
 ?>Sleep -&gt; Work [label="zombie"]
 Work -&gt; TV [label="zombie"]
 TV -&gt; Sleep [label="zombie"]
