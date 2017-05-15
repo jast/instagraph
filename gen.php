@@ -1,5 +1,7 @@
 <?php
 
+define('GRAPH_READ_TIMEOUT', 10);
+
 $type = isset($_POST['type']) ? $_POST['type'] : NULL;
 $def = isset($_POST['def']) ? $_POST['def'] : NULL;
 $private = isset($_POST['private']) ? ($_POST['private'] ? 1 : 0) : 0;
@@ -61,6 +63,22 @@ if (!is_resource($p)) die("Couldn't start graphing engine, sorry!");
 fwrite($pipes[0], $def);
 fclose($pipes[0]);
 
+$read_arr = array($pipes[1]);
+$write_arr = NULL;
+$err_arr = NULL;
+$read_poll = stream_select($read_arr, $write_arr, $err_arr, GRAPH_READ_TIMEOUT);
+if ($read_poll === false): ?>
+<p>Failed to read graph from graph engine due to an internal error. Sorry!</p>
+<?php
+	proc_terminate($p);
+	exit;
+endif;
+if ($read_poll == 0): ?>
+<p>Graph engine took to long to generate the graph, aborting.</p>
+<?php
+	proc_terminate($p);
+	exit;
+endif;
 $png = stream_get_contents($pipes[1]);
 fclose($pipes[1]);
 
